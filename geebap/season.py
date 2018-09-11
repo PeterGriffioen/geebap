@@ -390,9 +390,9 @@ class Season(object):
             # print ini_plus_doy
             new_doy = ini_plus_doy if ini_plus_doy <= self.year_days \
                                    else ini_plus_doy-self.year_days
-            print 'newdoy', new_doy
+            print('newdoy', new_doy)
             self._doy = Season.date_for_day(new_doy+1, self.leap)
-            print self._doy
+            print(self._doy)
         else:
             Season.check_valid_date(value, self.leap)
             self._doy = value
