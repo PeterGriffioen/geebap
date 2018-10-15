@@ -6,10 +6,10 @@ import ee
 import ee.data
 if not ee.data._initialized: ee.Initialize()
 
-import satcol
-import functions
+import geebap.satcol
+import geebap.functions
 from geetools import tools
-import season
+import geebap.season
 # from functions import execli
 from geetools.tools import execli
 from expressions import Expression

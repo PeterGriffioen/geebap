@@ -5,12 +5,12 @@ import ee
 import ee.data
 if not ee.data._initialized: ee.Initialize()
 
-import satcol
+import geebap.satcol
 from datetime import date
-from collections import OrderedDict
 from geetools import filters
+from collections import OrderedDict
 
-col_opt = satcol.IDS
+col_opt = geebap.satcol.IDS
 
 # IDS
 ID1 = col_opt['L1']
@@ -457,7 +457,6 @@ class Season(object):
         and ends on September 15th """
         return cls(ini="05-15", end="09-15", doy="07-15")
 
-
 class SeasonPriority(object):
     """ Satellite priorities for seasons.
 
@@ -470,18 +469,18 @@ class SeasonPriority(object):
     breaks = [1972, 1974, 1976, 1978, 1982, 1983,
               1994, 1999, 2003, 2012, 2013, date.today().year+1]
     periods = [range(b, breaks[i + 1]) for i, b in enumerate(breaks) if i < len(breaks) - 1]
-
     satlist = [[ID1],
-               [ID2, ID1],
-               [ID3, ID2, ID1],
-               [ID3, ID2],
-               [ID4SR, ID4TOA, ID3, ID2],
-               [ID5SR, ID5TOA, ID4SR, ID4TOA],
-               [ID5SR, ID5TOA],
-               [ID7SR, ID7TOA, ID5SR, ID5TOA],
-               [ID5SR, ID5TOA, ID7SR, ID7TOA],
-               [ID8SR, ID8TOA, ID7SR, ID7TOA, ID5SR, ID5TOA],
-               [ID8SR, ID8TOA, ID7SR, ID7TOA]]
+        [ID2, ID1],
+        [ID3, ID2, ID1],
+        [ID3, ID2],
+        [ID4SR, ID4TOA, ID3, ID2],
+        [ID5SR, ID5TOA, ID4SR, ID4TOA],
+        [ID5SR, ID5TOA],
+        [ID7SR, ID7TOA, ID5SR, ID5TOA],
+        [ID5SR, ID5TOA, ID7SR, ID7TOA],
+        [ID8SR, ID8TOA, ID7SR, ID7TOA, ID5SR, ID5TOA],
+        [ID8SR, ID8TOA, ID7SR, ID7TOA]]
+  
 
     relation = dict(
         [(p, sat) for per, sat in zip(periods, satlist) for p in per])

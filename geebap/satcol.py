@@ -427,7 +427,8 @@ class Collection(object):
                   short="L4TOA")
 
         obj.clouds_band = "BQA"
-        obj.fclouds = cld.landsatTOA()
+        # PG update obj.fclouds = cld.landsatTOA()
+        obj.fclouds = cld.landsat457TOA_BQA()
         # obj.ID = "LANDSAT/LT4_L1T_TOA_FMASK"
         obj.ID = IDS[obj.short]
         obj.threshold = {'NIR': {'min':0.07, 'max':0.45},
@@ -696,7 +697,7 @@ class Collection(object):
                   SWIR2="sur_refl_b07", process="SR", scale=500, max=5000,
                   bandscale=bandscale, bandmask="sur_refl_b06",
                   family="Modis", ini=1999, short="MODT",# col_id=14,
-                  to_scale=escalables, fclouds=cld.modis,)
+                  to_scale=escalables, fclouds=cld.modis09ga,)
         obj.threshold = {'NIR': {'min':700, 'max':4500},
                          'RED':{'min':50, 'max':2000},
                          'SWIR':{'min':400, 'max':3500},
