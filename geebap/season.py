@@ -158,7 +158,7 @@ class Season(object):
         else:
             ini = 31
 
-        for month, days in Season.rel_month_day(leap).iteritems():
+        for month, days in Season.rel_month_day(leap).items():
             if month == 1: continue
 
             if month != m:
@@ -458,7 +458,8 @@ class Season(object):
         return cls(ini="05-15", end="09-15", doy="07-15")
 
 class SeasonPriority(object):
-    """ Satellite priorities for seasons.
+    """ 
+    Satellite priorities for seasons.
 
     :param breaks: list of years when there is a break
     :param periods: nested list of periods
@@ -466,9 +467,10 @@ class SeasonPriority(object):
     :param relation: dict of relations
     :param ee_relation: EE dict of relations
     """
-    breaks = [1972, 1974, 1976, 1978, 1982, 1983,
-              1994, 1999, 2003, 2012, 2013, date.today().year+1]
-    periods = [range(b, breaks[i + 1]) for i, b in enumerate(breaks) if i < len(breaks) - 1]
+    thisYear = date.today().year+1
+    yearbreaks = [1972, 1974, 1976, 1978, 1982, 1983,
+                1994, 1999, 2003, 2012, 2013, thisYear]
+    ll = len(yearbreaks)-1
     satlist = [[ID1],
         [ID2, ID1],
         [ID3, ID2, ID1],
@@ -480,11 +482,14 @@ class SeasonPriority(object):
         [ID5SR, ID5TOA, ID7SR, ID7TOA],
         [ID8SR, ID8TOA, ID7SR, ID7TOA, ID5SR, ID5TOA],
         [ID8SR, ID8TOA, ID7SR, ID7TOA]]
-  
 
-    relation = dict(
-        [(p, sat) for per, sat in zip(periods, satlist) for p in per])
-
+    #print(yearbreaks)
+    #periods = [range(b, yearbreaks[i + 1]) for i, b in enumerate(yearbreaks) if i < len(yearbreaks) - 1]
+    #periods = [range(yearbreaks[i], yearbreaks[i + 1]) for i in range(0,ll-1)]
+    periods = [range(1972, 1974),range(1974, 1976),range(1976, 1978),range(1978, 1982),
+               range(1982, 1983),range(1983, 1994),range(1994, 1999),range(1999, 2003),
+               range(2003, 2012),range(2012, 2013),range(2013, 2018)]  #hardwired as couldn't get code above to work!
+    relation = dict([(p, sat) for per, sat in zip(periods, satlist) for p in per])
     ee_relation = ee.Dictionary(relation)
 
     def __init__(self, year):
@@ -497,15 +502,14 @@ class SeasonPriority(object):
         :rtype: list
         '''
         return self.relation[self.year]
-
     @property
     def collections(self):
-        '''
-        :return: list of satcol.Collection
-        :rtype: list
-        '''
-        sat = self.satellites
-        return [satcol.Collection.from_id(id) for id in sat]
+            '''
+            :return: list of satcol.Collection
+            :rtype: list
+            '''
+            sat = self.satellites
+            return [satcol.Collection.from_id(id) for id in sat]
 
     @property
     def colgroup(self):

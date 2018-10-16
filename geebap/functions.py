@@ -162,7 +162,7 @@ def replace_many(listEE, toreplace):
     :return: list with replaced values
     :rtype: ee.List
     """
-    for key, val in toreplace.iteritems():
+    for key, val in toreplace.items():
         if val:
             listEE = listEE.replace(key, val)
     return listEE

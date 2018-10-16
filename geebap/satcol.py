@@ -11,7 +11,7 @@ if not ee.data._initialized: ee.Initialize()
 from geetools import indices
 from geetools import cloud_mask as cld
 from copy import deepcopy
-import geebap.functions
+import geebap.functions as functions
 from geetools import tools
 from datetime import date
 
@@ -174,7 +174,7 @@ class Collection(object):
         :return: diccionario invertido de bands presentes en la coleccion
         :rtype: dict
         """
-        self.bandsrel = {v: k for k, v in self.bandsrel.iteritems() if v is not None}
+        self.bandsrel = {v: k for k, v in self.bandsrel.items() if v is not None}
 
     @property
     def bandIDimg(self):
@@ -291,7 +291,7 @@ class Collection(object):
         """
         # drop = drop
         # Redefine self.bandsrel
-        # self.bandsrel = {v: k for k, v in self.bandsrel.iteritems() if v is not None}
+        # self.bandsrel = {v: k for k, v in self.bandsrel.items() if v is not None}
 
         # indica que el objeto tiene las bands renombradas
         self._renamed = not self._renamed
@@ -774,13 +774,13 @@ class ColGroup(object):
         rel = self.collections[0].bandasrel_original
 
         # Bandas
-        bandas = [k for k, v in rel.iteritems() if v is not None]
+        bandas = [k for k, v in rel.items() if v is not None]
         s = set(bandas)
 
         for i, c in enumerate(self.collections):
             if i == 0: continue
             rel = c.bandasrel_original
-            bandas = [k for k, v in rel.iteritems() if v is not None]
+            bandas = [k for k, v in rel.items() if v is not None]
             s2 = set(bandas)
             s = s.intersection(s2)
 

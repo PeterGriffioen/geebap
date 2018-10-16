@@ -2,9 +2,15 @@
 # -*- coding: utf-8 -*-
 import unittest
 import ee
-from .. import satcol, scores, bap, season, masks, filters, functions
+import geebap.satcol
+import geebap.scores 
+import geebap.bap
+import geebap.season
+import geebap.masks
+import geebap.filters 
+import geebap.functions
 from geetools import tools
-from .. import __version__
+from geebap import __version__
 
 ee.Initialize()
 
@@ -14,24 +20,24 @@ class TestBAP(unittest.TestCase):
 
         print('Testing Best Available Pixel Composite version {}'.format(__version__))
         # FILTERS
-        self.filtro = filters.CloudsPercent()
+        self.filtro = geebap.filters.CloudsPercent()
 
         # MASKS
-        self.nubes = masks.Clouds()
+        self.nubes = geebap.masks.Clouds()
 
         # SEASON
-        self.temporada = season.Season.Growing_South()
+        self.temporada = geebap.season.Season.Growing_South()
 
         # COLLECTIONS
-        self.coleccion = satcol.ColGroup.Landsat()
+        self.coleccion = geebap.satcol.ColGroup.Landsat()
 
         # SCORES
-        self.psat = scores.Satellite()
-        self.pop = scores.AtmosOpacity()
-        self.pmascpor = scores.MaskPercent()
-        self.pindice = scores.Index()
-        self.pout = scores.Outliers(("ndvi",))
-        self.pdoy = scores.Doy()
+        self.psat = geebap.scores.Satellite()
+        self.pop = geebap.scores.AtmosOpacity()
+        self.pmascpor = geebap.scores.MaskPercent()
+        self.pindice = geebap.scores.Index()
+        self.pout = geebap.scores.Outliers(("ndvi",))
+        self.pdoy = geebap.scores.Doy()
 
         # SITES
         self.sitio = ee.Geometry.Polygon(
@@ -42,8 +48,8 @@ class TestBAP(unittest.TestCase):
         self.centroid = self.sitio.centroid()
 
     def test_bap2016_0(self):
-        pmulti = scores.MultiYear(2016, self.temporada)
-        objbap = bap.Bap(year=2016,
+        pmulti = geebap.scores.MultiYear(2016, self.temporada)
+        objbap = geebap.bap.Bap(year=2016,
                          # colgroup=self.coleccion,
                          season=self.temporada,
                          scores=(self.pindice, self.pmascpor, self.psat,

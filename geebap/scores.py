@@ -9,12 +9,13 @@ if not ee.data._initialized: ee.Initialize()
 import geebap.satcol
 import geebap.functions
 from geetools import tools
-import geebap.season
+from geebap.season import *
+from geebap.season import Season
 # from functions import execli
-from geetools.tools import execli
-from expressions import Expression
+#from geetools.tools import execli
+from geebap.expressions import Expression
 from abc import ABCMeta, abstractmethod
-from regdec import *
+from geebap.regdec import *
 
 __all__ = []
 factory = {}
@@ -312,7 +313,7 @@ class Doy(Score):
     :type name: str
     """
     def __init__(self, formula=Expression.Normal, name="score-doy",
-                 season=season.Season.Growing_South(), **kwargs):
+                 season=Season.Growing_South(), **kwargs):
         super(Doy, self).__init__(**kwargs)
         # PARAMETROS
         self.doy_month = season.doy_month
@@ -426,9 +427,12 @@ class Doy(Score):
         :param year: central year
         :type year: int
         """
-        media = execli(self.mean(year).getInfo)()
-        std = execli(self.std(year).getInfo)()
-        ran = execli(self.doy_range(year).getInfo)()
+        #media = execli(self.mean(year).getInfo)()
+        #std = execli(self.std(year).getInfo)()
+        #ran = execli(self.doy_range(year).getInfo)()
+        media = self.mean(year).getInfo
+        std = self.std(year).getInfo
+        ran = self.doy_range(year).getInfo
         self.rango_in = (1, ran)
 
         # exp = Expression.Normal(mean=mean, std=std)
@@ -1023,7 +1027,7 @@ class Threshold(Score):
 
         # As each band must have a 'min' and 'max' if it is not specified,
         # it is completed with None. This way, it can be catched by ee.Algorithms.If
-        for key, val in band_relation.iteritems():
+        for key, val in band_relation.items():
             val.setdefault('min', 0)
             val.setdefault('max', 1)
 

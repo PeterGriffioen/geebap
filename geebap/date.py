@@ -6,7 +6,7 @@ import ee
 import ee.data
 if not ee.data._initialized: ee.Initialize()
 
-import functions
+import geebap.functions
 
 
 class Date(object):

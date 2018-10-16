@@ -70,11 +70,11 @@ class TestOuliers(unittest.TestCase):
             "1341": 1, "1249": 1, "1866": 1}
 
         # OUTLIERS SCORE
-        val_dict = tools.get_values(self.newcol, self.p, 30, 'client')
+        val_dict = tools.imagecollection.get_values(self.newcol, self.p,  scale = 30, side ='client')
         # print(json.dumps(val_dict.values(), indent=2))
 
         # OUTLIER SCORE
-        compare = [(str(int(round(val[self.band]*10000))), val["score-outlier"]) for key, val in val_dict.iteritems()]
+        compare = [(str(int(round(val[self.band]*10000))), val["score-outlier"]) for key, val in val_dict.items()]
         compare = dict(compare)
 
         self.assertDictEqual(to_compare, compare)
@@ -90,11 +90,11 @@ class TestOuliers(unittest.TestCase):
             "1341": 1, "1249": 1, "1866": 1}
 
         # OUTLIERS SCORE
-        val_dict = tools.get_values(self.newcol, self.p, 30, 'client')
+        val_dict = tools.imagecollection.get_values(self.newcol, self.p,  scale = 30, side ='client')
         # print(json.dumps(val_dict.values(), indent=2))
 
         # OUTLIER SCORE
-        compare = [(str(int(round(val[self.band]*10000))), val[score.name]) for key, val in val_dict.iteritems()]
+        compare = [(str(int(round(val[self.band]*10000))), val[score.name]) for key, val in val_dict.items()]
         compare = dict(compare)
 
         self.assertDictEqual(to_compare, compare)

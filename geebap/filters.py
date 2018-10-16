@@ -5,9 +5,9 @@
 import ee.data
 if not ee.data._initialized: ee.Initialize()
 
-import satcol
+import geebap.satcol
 from abc import ABCMeta, abstractmethod
-from regdec import *
+from geebap.regdec import *
 
 __all__ = []
 factory = {}

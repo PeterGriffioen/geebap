@@ -8,7 +8,7 @@ if not ee.data._initialized: ee.Initialize()
 
 import csv
 import requests
-import functions
+import geebap.functions
 from geetools import tools
 
 

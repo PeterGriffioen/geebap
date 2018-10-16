@@ -8,21 +8,22 @@ import ee
 # Initialize EE
 import ee.data
 if not ee.data._initialized: ee.Initialize()
-
-import satcol
-import season as temp
-import functions
+from geebap import *
+import geebap.satcol as satcol
+import geebap.season as temp
+import geebap.functions as functions
 import datetime
-import date
-import scores
-import masks
-import filters
+import geebap.date as date
+import geebap.scores as scores
+import geebap.masks as masks
+import geebap.filters as filters
 import time
 import sys
 from collections import namedtuple
-from geetools import tools
+from geetools import tools as tools
 import json
 import pprint
+import functools
 
 pp = pprint.PrettyPrinter(indent=2)
 
@@ -39,7 +40,7 @@ def check_type(name, param, type):
 
 
 class Bap(object):
-    debug = False
+    debug = True
     verbose = True
     def __init__(self, year=None, range=(0, 0), colgroup=None, scores=None,
                  masks=None, filters=None, season=None, fmap=None,
@@ -226,7 +227,7 @@ class Bap(object):
         def get_col_val(col):
             ''' Values of the first image in the centroid '''
 
-            values = tools.get_values(col, centroid, 30, 'client')
+            values = tools.imagecollection.get_values(col, centroid, scale = 30, side ='client')
             pp.pprint(values)
         #################################################################
 
@@ -253,7 +254,7 @@ class Bap(object):
 
         # lista de nombres de los puntajes para sumarlos al final
         scores = self.score_names
-        maxpunt = reduce(
+        maxpunt = functools.reduce(
             lambda i, punt: i+punt.max, self.scores, 0) if self.scores else 1
 
         # Diccionario de cant de imagenes para incluir en las propiedades
@@ -351,7 +352,11 @@ class Bap(object):
 
                 # Transformo los valores enmascarados a cero
                 # c = c.map(tools.mask2zero)
-                c = c.map(tools.mask2zero)
+                c = c.map(tools.image.mask2zero)
+
+                if self.debug:
+                    print("BEFORE RENAMING BANDS:",
+                        get_col_val(c))
 
                 # Renombra las bandas con los datos de la coleccion
                 c = c.map(col.rename(drop=True))
@@ -608,7 +613,7 @@ class Bap(object):
             prop.update(dateprop)
 
             # Elimino las barras invertidas
-            prop = {k.replace("/","_"):v for k, v in prop.iteritems()}
+            prop = {k.replace("/","_"):v for k, v in prop.items()}
 
             img = img if bands is None else img.select(*bands)
 

@@ -5,8 +5,8 @@ import ee
 import ee.data
 if not ee.data._initialized: ee.Initialize()
 
-import expgen
-from functions import drange, replace
+import geebap.expgen
+from geebap.functions import drange, replace
 import math
 import simpleeval as sval
 import numpy as np
