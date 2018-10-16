@@ -350,14 +350,15 @@ class Bap(object):
                             print("AFTER THE MASK "+m.nombre,
                                 get_col_val(c))
 
+                if self.debug:
+                    print("BEFORE THE MASK:",
+                        get_col_val(c))
+
                 # Transformo los valores enmascarados a cero
                 # c = c.map(tools.mask2zero)
                 c = c.map(tools.image.mask2zero)
 
-                if self.debug:
-                    print("BEFORE RENAMING BANDS:",
-                        get_col_val(c))
-
+         
                 # Renombra las bandas con los datos de la coleccion
                 c = c.map(col.rename(drop=True))
 
