@@ -5,15 +5,15 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{423157f1-9a8d-44c0-afbb-efa098d5aee4}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>test.py</StartupFile>
+    <StartupFile>test_ARI.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId>Global|PythonCore|3.7</InterpreterId>
-    <IsWindowsApplication>True</IsWindowsApplication>
-    <EnableNativeCodeDebugging>True</EnableNativeCodeDebugging>
+    <IsWindowsApplication>False</IsWindowsApplication>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -50,6 +50,7 @@
     <Compile Include="geebap\tests\test_sites.py" />
     <Compile Include="geebap\tests\test_threshold.py" />
     <Compile Include="geebap\tests\__init__.py" />
+    <Compile Include="geebap\test_ARI.py" />
     <Compile Include="geebap\__init__.py" />
     <Compile Include="setup.py" />
     <Compile Include="test.py" />
