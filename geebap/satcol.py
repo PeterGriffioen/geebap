@@ -77,30 +77,37 @@ class Collection(object):
         self.__ID = None
 
         # bandid para crear una band que identifique a la col
+        # bandid to create a band that identifies the col
         # self.col_id = kwargs.get("col_id", None)
 
         # IDENTIFICADOR DEL PROCESO
+        # Process Identifier
         self.process = kwargs.get("process", None)
 
         # FAMILIA DEL SATELITE (LANDSAT, SENTINEL, MODIS)
         self.family = kwargs.get("family", None)
 
         # FUNCION PARA MAPEAR LA MASCARA DE NUBES PROPIA DE LA COLECCION
+        # FUNCTION TO MAP THE OWN CLOUD MASK OF THE COLLECTION
         self.fclouds = kwargs.get("fclouds", None)
 
         # CAMPO QUE CONTIENE EL PORCENTAJE DE COBERTURA DE NUBES
+        # FIELD WHICH CONTAINS THE PERCENTAGE OF CLOUD COVERAGE
         self.clouds_fld = kwargs.get("clouds_fld", None)
 
         # BANDA QUE CONTIENE LA MASCARA DE NUBES
+        # BAND CONTAINING THE CLOUD MASK
         self.clouds_band = kwargs.get("clouds_band", None)
 
         # NOMBRE ABREVIADO PARA AGREGAR A LAS PROPIEDADES DE LAS IMGS
+        # ABBREVIATED NAME TO ADD TO THE PROPERTIES OF THE IMGS
         self.short = kwargs.get("short", None)
 
         # Collection id
         self.col_id = SAT_CODES[self.short]
 
         # BANDAS IMPORTANTES
+        # IMPORTANT BANDS
         self.NIR = kwargs.get("NIR", None)
         self.SWIR = kwargs.get("SWIR", None)
         self.RED = kwargs.get("RED", None)
@@ -110,6 +117,7 @@ class Collection(object):
         self.ATM_OP = kwargs.get("ATM_OP", None)  # Atmospheric Opacity
 
         # UMBRALES
+        # THRESHOLDS
         self.cloud_th = kwargs.get("cloud_th", None)
         self.shadow_th = kwargs.get("shadow_th", None)
 
@@ -117,32 +125,41 @@ class Collection(object):
         self.threshold = kwargs.get('threshold', None)
 
         # BANDAS ESCALABLES
+        # SCALABLE BANDS
         self.to_scale = kwargs.get("to_scale", None)
 
         # COLECCION TOA EQUIVALENTE
+        # TOA EQUIVALENT COLLECTION
         self.equiv = kwargs.get("equiv", None)
 
         # PROPIEDADES PARA LA VISUALIZACION
+        # PROPERTIES FOR DISPLAY
         self.bandvizNSR = [self.NIR, self.SWIR, self.RED]
         self.min = kwargs.get("min", 0)
         self.max = kwargs.get("max", None)
 
         # ESCALA DE LAS BANDAS QUE SE USAN
+        # SCALE OF THE BANDS THAT ARE USED
         self.scale = kwargs.get("scale", None)
 
         # ESCALA DE LAS BANDAS (dict)
+        # SCALE OF THE BANDS (dict)
         self.bandscale = kwargs.get("bandscale", None)
 
         # BANDA QUE CONTIENE LA MASCARA
+        # BAND THAT CONTAINS THE MASK
         self.bandmask = kwargs.get("bandmask", None)
 
         # TOMA LOS ARGUMENTOS DE LA CREACION
+        # TAKE THE ARGUMENTS OF CREATION
         self.kws = kwargs
 
         # BANDAS RENOMBRADAS?
+        # RENOWNED BANDS?
         self._renamed = False
 
         # RELACION DE LAS BANDAS
+        # RELATIONSHIP OF THE BANDS
         self.bandasrel_original = {"BLUE": self.BLUE,
                                    "GREEN": self.GREEN,
                                    "RED": self.RED,
@@ -155,10 +172,12 @@ class Collection(object):
         # self._bandasrel = None
 
         # ANIO DE LANZAMIENTO y FINAL
+        # YEAR OF LAUNCH and FINAL
         self.ini = kwargs.get("ini", None)
         self.fin = kwargs.get("fin", ACTUAL_YEAR)
 
         # Crea los diccionarios
+        # Create the dictionaries
         self.set_dicts()
 
     def set_dicts(self):
@@ -171,7 +190,12 @@ class Collection(object):
         """ Genera un diccionario con la relacion entre las bands, en el cual
         estan solo las bands presentes en la coleccion, y estas son los keys.
         Los keys son los nombres de las bands de la coleccion.
+
+        Generates a dictionary with the relationship between the bands, in which
+        they are only the bands present in the collection, and these are the keys.
+        The keys are the names of the bands in the collection.
         :return: diccionario invertido de bands presentes en la coleccion
+                 inverted dictionary of bands present in the collection
         :rtype: dict
         """
         self.bandsrel = {v: k for k, v in self.bandsrel.items() if v is not None}
@@ -218,12 +242,14 @@ class Collection(object):
     @property
     def satmask(self):
         """ FUNCION PARA AGREGAR EL CODIGO DEL SATELITE
-
+            FUNCTION TO ADD THE SATELLITE CODE
         :return: Id unico de la Collection
+                Unique ID of the Collection
         :rtype: int
         """
         try:
             # le suma 1 para que el primero sea 1 y no 0
+            # add 1 for the first to be 1 and not 0
             # return Collection._OPTIONS.index(self.ID) + 1
             return SAT_CODES[self.short]
         except:
@@ -250,9 +276,12 @@ class Collection(object):
             return None
 
     # FUNCIONES PARA MAPEAR EL INDICE DE VEGETACION
+    # FUNCTIONS TO MAP THE VEGETATION INDEX
     @property
     def ndvi(self):
-        """ Funcion para calcular el ndvi usando map() """
+        """ Funcion para calcular el ndvi usando map()
+            Function to calculate the ndvi using map ()
+        """
         if self.NIR and self.RED and initialized:
             return indices.ndvi(self.NIR, self.RED)
         else:
@@ -260,7 +289,8 @@ class Collection(object):
 
     @property
     def nbr(self):
-        """ Funcion para calcular el nbr usando map() """
+        """ Funcion para calcular el nbr usando map() 
+            Function to calculate the nbr using map ()"""
         if self.NIR and self.SWIR2 and initialized:
             return indices.nbr(self.NIR, self.SWIR2)
         else:
@@ -268,7 +298,8 @@ class Collection(object):
 
     @property
     def evi(self):
-        """ Funcion para calcular el evi usando map() """
+        """ Funcion para calcular el evi usando map() 
+            Function to calculate the evi using map ()"""
         if self.NIR and self.RED and self.BLUE and initialized:
             return indices.evi(self.NIR, self.RED, self.BLUE)
         else:
@@ -294,6 +325,7 @@ class Collection(object):
         # self.bandsrel = {v: k for k, v in self.bandsrel.items() if v is not None}
 
         # indica que el objeto tiene las bands renombradas
+        # indicates that the object has the bands renamed
         self._renamed = not self._renamed
 
         # print 'self.bandsrel[self.NIR]', self.bandsrel[self.NIR]
@@ -311,13 +343,16 @@ class Collection(object):
         self.to_scale = [self.bandsrel[i] for i in self.to_scale]
         self.bandmask = self.bandsrel[self.bandmask]
 
-        # obtiene la funcion para renombrar las bands antes de inveritrlas
+        # obtiene la funcion para renombrar las bands antes de inveritrals
+        # gets the function to rename the bands before inverts
         frename = functions.rename_bands(self.bandsrel, drop)
 
         # Invierte la relation entre las bands
+        # Invert the relationship between the bands
         self.invert_bandsrel()
 
         # resetea los diccionarios
+        # resets the dictionaries
         self.set_dicts()
 
         def wrap(img):
@@ -395,6 +430,7 @@ class Collection(object):
         obj = cls(**copy.kws)
 
         # CAMBIO
+        # CHANGE
         # obj.ID = IDS['L2']  # "LANDSAT/LM2_L1T"
         obj.ID = IDS[obj.short]
         return obj
@@ -411,6 +447,7 @@ class Collection(object):
         obj = cls(**copy.kws)
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "LANDSAT/LM3_L1T"
         obj.ID = IDS[obj.short]
         return obj
@@ -478,6 +515,7 @@ class Collection(object):
                          'GREEN':{'min':0.01, 'max':0.15}}
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "LANDSAT/LT5_L1T_TOA_FMASK"
         obj.ID = IDS[obj.short]
         return obj
@@ -502,6 +540,7 @@ class Collection(object):
                          'GREEN':{'min':100, 'max':1500}}
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "LANDSAT/LT05/C01/T1_SR"
         obj.ID = IDS[obj.short]
         return obj
@@ -527,6 +566,7 @@ class Collection(object):
                          'GREEN':{'min':100, 'max':1500}}
 
         # CAMBIOS
+        # CHANGE
         # obj.ID = "LEDAPS/LT5_L1T_SR"
         obj.ID = IDS[obj.short]
         return obj
@@ -548,6 +588,7 @@ class Collection(object):
                          'GREEN':{'min':0.01, 'max':0.15}}
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "LANDSAT/LE7_L1T_TOA_FMASK"
         obj.ID = IDS[obj.short]
         return obj
@@ -572,6 +613,7 @@ class Collection(object):
                          'GREEN':{'min':100, 'max':1500}}
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "LANDSAT/LE07/C01/T1_SR"
         obj.ID = IDS[obj.short]
 
@@ -626,6 +668,7 @@ class Collection(object):
                          'GREEN':{'min':0.01, 'max':0.15}}
 
         # CAMBIOS
+        # CHANGE
         # obj.ID = "LANDSAT/LC8_L1T_TOA_FMASK"
         obj.ID = IDS[obj.short]
 
@@ -653,6 +696,7 @@ class Collection(object):
                          'GREEN':{'min':100, 'max':1500}}
 
         # CAMBIOS
+        # CHANGE
         # obj.ID = "LANDSAT/LC08/C01/T1_SR"
         obj.ID = IDS[obj.short]
 
@@ -718,6 +762,7 @@ class Collection(object):
         obj = cls(**copy.kws)
 
         # CAMBIO
+        # CHANGE
         # obj.ID = "MODIS/006/MYD09GA"
         obj.ID = IDS[obj.short]
 
@@ -771,6 +816,7 @@ class ColGroup(object):
         :rtype: list
         """
         # diccionario de relaciones de la primer coleccion
+        # dictionary of relations of the first collection
         rel = self.collections[0].bandasrel_original
 
         # Bandas
@@ -788,6 +834,7 @@ class ColGroup(object):
 
     def scale_min(self):
         """ Obtiene la escala minima entre las collections
+            Get the minimum scale between the collections
 
         :return:
         """
@@ -797,7 +844,7 @@ class ColGroup(object):
 
     def scale_max(self):
         """ Obtiene la escala maxima entre las collections
-
+            Get the maximum scale between the collections
         :return:
         """
         escalas = [col.scale for col in self.collections]
@@ -808,6 +855,8 @@ class ColGroup(object):
         """
         :return: family a la que pertenece la coleccion completa, si
         es mixta, devuelve 'mixta'
+        family to which the complete collection belongs, if
+        is mixed, returns 'mixed'
         :rtype: str
         """
         familias = [col.family for col in self.collections]

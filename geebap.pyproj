@@ -50,10 +50,10 @@
     <Compile Include="geebap\tests\test_sites.py" />
     <Compile Include="geebap\tests\test_threshold.py" />
     <Compile Include="geebap\tests\__init__.py" />
-    <Compile Include="geebap\test_ARI.py" />
     <Compile Include="geebap\__init__.py" />
     <Compile Include="setup.py" />
     <Compile Include="test.py" />
+    <Compile Include="test_ARI.py" />
     <Compile Include="test_maskpercent.py" />
     <Compile Include="test_outliers.py" />
     <Compile Include="test_scores.py" />
@@ -66,7 +66,9 @@
     <Folder Include="geebap\tests" />
   </ItemGroup>
   <ItemGroup>
+    <InterpreterReference Include="Global|ContinuumAnalytics|Anaconda36-64" />
     <InterpreterReference Include="Global|PythonCore|3.5" />
+    <InterpreterReference Include="Global|PythonCore|3.6" />
     <InterpreterReference Include="Global|PythonCore|3.7" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

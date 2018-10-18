@@ -356,11 +356,12 @@ class Bap(object):
                 # MASKS
                 if self.masks:
                     for m in self.masks:
-                        c = c.map(
-                            m.map(col=col, year=anio, colEE=c))
-                        if self.debug:
-                            print("AFTER THE MASK "+m.nombre,
-                                get_col_val(c))
+                        if m != None:
+                            c = c.map(
+                                m.map(col=col, year=anio, colEE=c))
+                            if self.debug:
+                                print("AFTER THE MASK "+m.nombre,
+                                    get_col_val(c))
 
                 if self.debug:
                     print("BEFORE THE MASK:",
@@ -371,7 +372,10 @@ class Bap(object):
                 # c = c.map(tools.mask2zero)
                 c = c.map(tools.image.mask2zero)
 
-         
+                if self.debug:
+                    print("After 0 Transform:",
+                        get_col_val(c))
+
                 # Renombra las bandas con los datos de la coleccion
                 # Rename the bands with the collection data
                 c = c.map(col.rename(drop=True))
